@@ -17,59 +17,127 @@ service cloud.firestore {
       allow create: if isSignedIn() && isOwner(userId);
     }
     
-    // Medications collection - allow access for authenticated users and caregiver access
+    // Medications collection - authenticated users can read, but only write their own data
+    // Caregivers can read patient data (app handles filtering via CaregiverPatients)
     match /Medications/{medicationId} {
-      allow read, write: if isSignedIn() || true; // Allow unauthenticated for caregiver access
+      allow read: if isSignedIn(); // Authenticated users can read (app filters by caregiver relationships)
+      allow write: if isSignedIn() && (
+        isOwner(resource.data.userId) || 
+        request.auth.uid == resource.data.userId
+      );
+      allow create: if isSignedIn() && (
+        isOwner(request.resource.data.userId) || 
+        request.auth.uid == request.resource.data.userId
+      );
     }
     
-    // MedicationStatus collection - allow access for authenticated users and caregiver access
+    // MedicationStatus collection
     match /MedicationStatus/{statusId} {
-      allow read, write: if isSignedIn() || true; // Allow unauthenticated for caregiver access
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && (
+        isOwner(resource.data.userId) || 
+        request.auth.uid == resource.data.userId
+      );
+      allow create: if isSignedIn() && (
+        isOwner(request.resource.data.userId) || 
+        request.auth.uid == request.resource.data.userId
+      );
     }
     
-    // BloodPressure collection - allow access for authenticated users and caregiver access
+    // BloodPressure collection
     match /BloodPressure/{bpId} {
-      allow read, write: if isSignedIn() || true; // Allow unauthenticated for caregiver access
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && (
+        isOwner(resource.data.userId) || 
+        request.auth.uid == resource.data.userId
+      );
+      allow create: if isSignedIn() && (
+        isOwner(request.resource.data.userId) || 
+        request.auth.uid == request.resource.data.userId
+      );
     }
     
-    // Symptoms collection - allow access for authenticated users and caregiver access
+    // Symptoms collection
     match /Symptoms/{symptomId} {
-      allow read, write: if isSignedIn() || true; // Allow unauthenticated for caregiver access
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && (
+        isOwner(resource.data.userId) || 
+        request.auth.uid == resource.data.userId
+      );
+      allow create: if isSignedIn() && (
+        isOwner(request.resource.data.userId) || 
+        request.auth.uid == request.resource.data.userId
+      );
     }
     
-    // Reminders collection - allow access for authenticated users and caregiver access
+    // Reminders collection
     match /Reminders/{reminderId} {
-      allow read, write: if isSignedIn() || true; // Allow unauthenticated for caregiver access
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && (
+        isOwner(resource.data.userId) || 
+        request.auth.uid == resource.data.userId
+      );
+      allow create: if isSignedIn() && (
+        isOwner(request.resource.data.userId) || 
+        request.auth.uid == request.resource.data.userId
+      );
     }
     
-    // HeartRate collection - allow access for authenticated users and caregiver access
+    // HeartRate collection
     match /HeartRate/{heartRateId} {
-      allow read, write: if isSignedIn() || true; // Allow unauthenticated for caregiver access
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && (
+        isOwner(resource.data.userId) || 
+        request.auth.uid == resource.data.userId
+      );
+      allow create: if isSignedIn() && (
+        isOwner(request.resource.data.userId) || 
+        request.auth.uid == request.resource.data.userId
+      );
     }
     
-    // Temperature collection - allow access for authenticated users and caregiver access
+    // Temperature collection
     match /Temperature/{temperatureId} {
-      allow read, write: if isSignedIn() || true; // Allow unauthenticated for caregiver access
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && (
+        isOwner(resource.data.userId) || 
+        request.auth.uid == resource.data.userId
+      );
+      allow create: if isSignedIn() && (
+        isOwner(request.resource.data.userId) || 
+        request.auth.uid == request.resource.data.userId
+      );
     }
     
-    // User collection (alternative naming) - users can only access their own data
+    // User collection (alternative naming)
     match /User/{userId} {
       allow read, write: if isSignedIn() && isOwner(userId);
       allow create: if isSignedIn() && isOwner(userId);
     }
     
-    // Users collection - allow read/write for authenticated users and caregiver access
-    // Also allow querying by phone for caregiver access
+    // Users collection - authenticated users can read their own data
     match /Users/{userId} {
-      allow read, write, create, list: if true; // Allow all access for development/testing
+      allow read: if isSignedIn() && isOwner(userId);
+      allow write: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId);
+      // Allow authenticated users to list (app will filter by caregiver relationships)
+      allow list: if isSignedIn();
     }
     
-    // Appointments collection - allow access for authenticated users and caregiver access
+    // Appointments collection
     match /Appointments/{appointmentId} {
-      allow read, write: if isSignedIn() || true; // Allow unauthenticated for caregiver access
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && (
+        isOwner(resource.data.userId) || 
+        request.auth.uid == resource.data.userId
+      );
+      allow create: if isSignedIn() && (
+        isOwner(request.resource.data.userId) || 
+        request.auth.uid == request.resource.data.userId
+      );
     }
 
-    // CaregiverInvitations collection - patients can create, anyone can read to accept
+    // CaregiverInvitations collection
     match /CaregiverInvitations/{invitationCode} {
       allow read: if isSignedIn();
       allow create: if isSignedIn() && 
@@ -81,15 +149,14 @@ service cloud.firestore {
       allow delete: if isSignedIn() && 
         request.auth.uid == resource.data.patientId;
     }
-
+    
     // CaregiverPatients collection - manage caregiver-patient relationships
     match /CaregiverPatients/{relationshipId} {
       allow read: if isSignedIn() && (
         request.auth.uid == resource.data.caregiverId ||
         request.auth.uid == resource.data.patientId
       );
-      // Allow querying for caregiver relationships - return empty for unauthenticated users
-      allow list: if true; // This will return empty results for unauthenticated users
+      allow list: if isSignedIn();
       allow create: if isSignedIn() && 
         request.auth.uid == request.resource.data.caregiverId;
       allow update: if isSignedIn() && (
@@ -101,16 +168,16 @@ service cloud.firestore {
         request.auth.uid == resource.data.patientId
       );
     }
-
-    // PatientAccessCodes collection - patients can create their own codes
+    
+    // PatientAccessCodes collection - patients create codes, authenticated users can verify
     match /PatientAccessCodes/{codeId} {
+      // Patients can read their own codes
       allow read: if isSignedIn() && (
         request.auth.uid == resource.data.patientId ||
         request.auth.uid == resource.data.createdBy
       );
-      // Allow unauthenticated querying for access codes (needed for caregiver access)
-      // This is safe because access codes are temporary and expire
-      allow list: if isSignedIn() || true; // Allow unauthenticated queries for caregiver access
+      // Allow authenticated users to query codes for verification (codes expire and are single-use)
+      allow list: if isSignedIn();
       allow create: if isSignedIn() && 
         request.auth.uid == request.resource.data.patientId &&
         request.auth.uid == request.resource.data.createdBy;
@@ -119,14 +186,15 @@ service cloud.firestore {
       allow delete: if isSignedIn() && 
         request.auth.uid == resource.data.patientId;
     }
-
+    
     // TemporaryCaregiverSessions collection - track temporary access sessions
     match /TemporaryCaregiverSessions/{sessionId} {
       allow read: if isSignedIn() && (
         request.auth.uid == resource.data.caregiverId ||
         request.auth.uid == resource.data.patientId
       );
-      allow create: if true; // Allow creation for caregiver access
+      // Only authenticated users can create sessions
+      allow create: if isSignedIn();
       allow update: if isSignedIn() && 
         request.auth.uid == resource.data.caregiverId;
       allow delete: if isSignedIn() && (
@@ -140,4 +208,4 @@ service cloud.firestore {
       allow read, write: if false;
     }
   }
-} 
+}
