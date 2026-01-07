@@ -10,7 +10,6 @@
 - [Installation](#installation)
 - [Usage Guide](#usage-guide)
 - [Screenshots](#screenshots)
-- [Future Improvements](#future-improvements)
 
 ## Overview
 Pulmonary hypertension is a chronic condition requiring strict adherence to medication and constant health monitoring. PHarmony addresses the challenge of managing these complex regimens by providing a digital companion that tracks intake, monitors vital signs (blood pressure, heart rate), and visualizes health trends over time.
@@ -104,9 +103,3 @@ PHarmony follows a modular architecture to ensure scalability and maintainabilit
 | Data Visualization | Emergency Alert | Caregiver Mode |
 |:---:|:---:|:---:|
 | <img src="assets/images/charts.png" width="200"> | <img src="assets/images/alert.png" width="200"> | <img src="assets/images/caregiver.png" width="200"> |
-
-## Future Improvements
-* **Wearable Integration:** Connect with smartwatches for automated heart rate and BP monitoring.
-* **Offline Mode:** Enhance offline capabilities with background syncing once internet is restored.
-* **Photo Recognition:** Scan medicine labels to automatically populate drug details.
-* **Advanced Analytics:** Drill-down capabilities for charts to analyze specific timeframes.
