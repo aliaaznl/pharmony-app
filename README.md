@@ -7,11 +7,8 @@
 ## Table of Contents
 - [Overview](#overview)
 - [Main Features](#main-features)
-- [System Architecture](#system-architecture)
 - [Technology Stack](#technology-stack)
 - [Installation](#installation)
-- [Usage Guide](#usage-guide)
-- [Screenshots](#screenshots)
 
 ## Overview
 Pulmonary hypertension is a chronic condition requiring strict adherence to medication and constant health monitoring. PHarmony addresses the challenge of managing these complex regimens by providing a digital companion that tracks intake, monitors vital signs (blood pressure, heart rate), and visualizes health trends over time.
@@ -45,15 +42,6 @@ Pulmonary hypertension is a chronic condition requiring strict adherence to medi
 ### Caregiver Access
 * **Secure Access:** Patients generate a unique, time-limited 6-digit code.
 * **Remote Monitoring:** Caregivers can view the patient's dashboard, adherence, and health status in real-time.
-
-## System Architecture
-PHarmony follows a modular architecture to ensure scalability and maintainability. The system connects the client-side Flutter application with a Firebase backend.
-
-* **User Interface Module:** Handles all patient interactions (Login, Dashboard, Input forms).
-* **Process Module:** Manages data logic and securely communicates with the database.
-* **Notification Module:** Handles local alarms and push notifications.
-* **Emergency Module:** Integrates with Twilio for external SMS communication.
-* **Database Module:** Firebase Firestore for real-time data storage and synchronization.
 
 ## Technology Stack
 * **Frontend Framework:** [Flutter](https://flutter.dev/) (Dart)
