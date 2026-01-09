@@ -86,22 +86,3 @@ PHarmony follows a modular architecture to ensure scalability and maintainabilit
     ```bash
     flutter run
     ```
-
-## Usage Guide
-
-1.  **Registration:** Sign up using email/password or Google Sign-In.
-2.  **Setup Schedule:** Go to "Add Medication" to input your prescription details and set alarm times.
-3.  **Daily Logging:**
-    * When an alarm rings, tap "Taken" to log it.
-    * Use the "Vital Signs" tab to record blood pressure.
-4.  **Caregiver Link:** Navigate to Settings > Caregiver Access to generate a code for your family member.
-
-## Screenshots
-
-| Dashboard | Medication Schedule | Vital Signs Input |
-|:---:|:---:|:---:|
-| <img src="assets/images/dashboard.png" width="200"> | <img src="assets/images/schedule.png" width="200"> | <img src="assets/images/vitals.png" width="200"> |
-
-| Data Visualization | Emergency Alert | Caregiver Mode |
-|:---:|:---:|:---:|
-| <img src="assets/images/charts.png" width="200"> | <img src="assets/images/alert.png" width="200"> | <img src="assets/images/caregiver.png" width="200"> |
