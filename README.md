@@ -1,8 +1,8 @@
-![My Project Screenshot](https://raw.githubusercontent.com/aliaaznl/pharmony-app/0decd90e848517b856520bc3d0fc309bae93084d/screenshot.png)
-
 # PHarmony: Mobile Application for Pulmonary Hypertension Patients
 
 **PHarmony** is a mobile application designed to assist patients with Pulmonary Hypertension (PH) in managing their complex medication schedules and monitoring their health conditions. By integrating personalized reminders, vital sign tracking, and comprehensive data visualization, PHarmony aims to improve medication adherence and facilitate better communication between patients and healthcare providers.
+
+![My Project Screenshot](https://raw.githubusercontent.com/aliaaznl/pharmony-app/0decd90e848517b856520bc3d0fc309bae93084d/screenshot.png)
 
 ## Table of Contents
 - [Overview](#overview)
